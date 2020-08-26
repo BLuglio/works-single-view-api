@@ -14,7 +14,10 @@ class DB():
         try:
             self.cur.execute(query)
             records = self.cur.fetchall()
-            return records[0]
+            if len(records) > 0:
+                return records[0]
+            else: 
+                return []
         except(Exception, psycopg2.Error) as error :
             print ("Error while fetching data from PostgreSQL", error)
         finally:

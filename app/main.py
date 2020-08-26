@@ -5,23 +5,15 @@ from pathlib import Path
 import sys
 
 UPLOAD_FOLDER = '/Users/biagio/Desktop/works-single-view-api/app/upload'
+DOWNLOAD_FOLDER = '/Users/biagio/Desktop/works-single-view-api/app/download'
 ALLOWED_EXTENSIONS = {'csv'}
 
 def create_app():
     app = Flask(__name__)
     app.secret_key = "super secret key"
 
-    # set up configuration
-    # secret_config = Path(os.getcwd() + "/app/configuration/secret.conf")
-    # if not secret_config.exists():
-    #     raise Exception(
-    #         "Configuration error: secret.conf not found in " + os.getcwd() + "/app/configuration/secret.conf")
-    # else:
-    #     app.config.from_pyfile(os.path.join(
-    #         ".", "configuration/secret.conf"), silent=False)
-    #     app.config.from_pyfile(os.path.join(
-    #         ".", "configuration/settings.conf"), silent=False)
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+    app.config['DOWNLOAD_FOLDER'] = DOWNLOAD_FOLDER
     app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
     with app.app_context():
         import routes
