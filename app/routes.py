@@ -25,8 +25,8 @@ def allowed_file(filename):
 
 # get the musical work given its iswc, in a csv format
 # @returns: csv file or null
-@app.route('/api/musical_work/<string:iswc>/download/', methods=['GET'])
-def download_file(iswc):
+@app.route('/api/musical_work/<string:iswc>/download', methods=['GET'])
+def download_single_musical_work(iswc):
     musical_work = dataaccess.musical_work.get_by_iswc(iswc)
     #TODO: check length
     musical_work = musical_work[0]
@@ -41,19 +41,19 @@ def download_file(iswc):
 
 # get all musical works in a csv format
 # @returns: csv file
-@app.route('/api/musical_work/download/', methods=['GET'])
-def download_file(iswc):
-    musical_work = dataaccess.musical_work.get_by_iswc(iswc)
-    musical_work = musical_work[0]
-    # reformat result
-    musical_work = dict(musical_work)
-    contributors = str(musical_work['contributors']).replace('[','').replace(']','').replace(', ', '|')
-    contributors = re.sub(r'\'', '', contributors) 
-    musical_work['contributors'] = contributors
-    util.csv.write_dict_as_csv(name='work_metadata', _dict=musical_work, dest=app.config['DOWNLOAD_FOLDER'])
-    return send_from_directory(app.config['DOWNLOAD_FOLDER'], 'work_metadata.csv', as_attachment=True)
+# @app.route('/api/musical_work/download', methods=['GET'])
+# def download_all_musical_workds(iswc):
+#     musical_work = dataaccess.musical_work.get_by_iswc(iswc)
+#     musical_work = musical_work[0]
+#     # reformat result
+#     musical_work = dict(musical_work)
+#     contributors = str(musical_work['contributors']).replace('[','').replace(']','').replace(', ', '|')
+#     contributors = re.sub(r'\'', '', contributors) 
+#     musical_work['contributors'] = contributors
+#     util.csv.write_dict_as_csv(name='work_metadata', _dict=musical_work, dest=app.config['DOWNLOAD_FOLDER'])
+#     return send_from_directory(app.config['DOWNLOAD_FOLDER'], 'work_metadata.csv', as_attachment=True)
 
-@app.route('/api/musical_work/', methods=['POST'])
+@app.route('/api/musical_work', methods=['POST'])
 def upload_file():
     if 'file' not in request.files:
         flash('No file part')
