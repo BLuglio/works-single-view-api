@@ -1,5 +1,6 @@
 import psycopg2
 from psycopg2.extras import RealDictCursor
+import json
 
 class DB():
     def __init__(self, host, port, database, user, password):
@@ -14,10 +15,7 @@ class DB():
         try:
             self.cur.execute(query)
             records = self.cur.fetchall()
-            if len(records) > 0:
-                return records[0]
-            else: 
-                return []
+            return records
         except(Exception, psycopg2.Error) as error :
             print ("Error while fetching data from PostgreSQL", error)
         finally:
