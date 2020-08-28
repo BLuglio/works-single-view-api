@@ -1,4 +1,3 @@
-
 from flask import Flask, session
 import os
 from pathlib import Path
@@ -14,7 +13,6 @@ def create_app():
     app.config['ALLOWED_EXTENSIONS'] = settings.ALLOWED_EXTENSIONS
 
     # app.url_map.strict_slashes = False
-
     with app.app_context():
         import api
 
