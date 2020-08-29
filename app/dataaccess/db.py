@@ -20,6 +20,18 @@ class DB():
             return records
         except(Exception, psycopg2.Error) as error :
             print ("Error while fetching data from PostgreSQL", error)
+            return []
+        finally:
+            self.__close_connection__()
+    
+    def execute_insert_query(self, query):
+        try:
+            self.__open_connection__()
+            self.cur.execute(query)
+            return True
+        except(Exception, psycopg2.Error) as error :
+            print ("Error while fetching data from PostgreSQL", error)
+            return False
         finally:
             self.__close_connection__()
     
