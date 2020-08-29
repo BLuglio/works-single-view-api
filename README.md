@@ -62,7 +62,9 @@ RESPONSE
 
 GET http://localhost:5000/api/musical_works/T0101974597/download
 
-RESPONSE: csv file
+RESPONSE
+
+![CSV export](github/csv_download.png "Musical Work, Single View")
 
 
 POST http://localhost:5000/api/musical_works/T0101974597/upload
