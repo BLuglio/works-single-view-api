@@ -7,4 +7,4 @@ api.prefix = '/api'
 
 from endpoints.musical_work.resource import MusicalWorkResource
 
-api.add_resource(MusicalWorkResource, '/musical_works', '/musical_works/<string:iswc>', '/musical_works/<string:iswc>/download')
+api.add_resource(MusicalWorkResource, '/musical_works', '/musical_works/<string:iswc>', '/musical_works/<string:iswc>/download', '/musical_works/<string:iswc>/upload')
