@@ -1,12 +1,6 @@
 # works-single-view-api
 
-This is the repository for the second part of the test assigned to me by BMAT.
-
-Once started, the software:
-
-processes every csv file inside the data directory
-waits for new csv files created inside the same directory
-Further details regarding the file processing are provided in the answers section.
+This is the repository for the second part of the test assigned to me by BMAT. I used `flask` as web server exposing its api with the `flask-restful` module. The software is designed to work with the same database used in the first part of the assignment
 
 ## Dev Dependencies
 
@@ -134,12 +128,10 @@ RESPONSE
 
 ## Answers to Questions
 
-1) Imagine that the Single View has 20 million musical works, do you think your solution would have a similar response time?
-
+1) <b>Imagine that the Single View has 20 million musical works, do you think your solution would have a similar response time?</b>
     <br/>
-    The csv files are read with the pandas library, extracting only the columns 'iswc', 'contributors' and 'title'.
-<br>
+    Honestly, I don't have any experience with managing such a huge dataset. However, I can anticipate that the response time of my solution will be much slower, increasing the time required by the `SELECT` queries to fetch data and stressing the disk(s) hosting the database in the I/O operations
 
-2) If not, what would you do to improve it?
-    <br>
-    The provided solution already offers some degree of automation since the system is always waiting for new files created inside the /data folder. However, a 
+2) <b>If not, what would you do to improve it?</b>
+    Even if I'm not an expert in database administration, I know that there are many ways to optimize a PostgreSQL database for this scenario (clustering, table partitioning, indexing etc) and they would all important to prevent the system from collapsing; anyway, I would consider to move all the queries to a text-based service like ElasticSearch, because they are designed to solve these problems specifically and improve the application' response time in a significant way
+    
