@@ -130,8 +130,8 @@ RESPONSE
 
 1) <b>Imagine that the Single View has 20 million musical works, do you think your solution would have a similar response time?</b>
     <br/>
-    Honestly, I don't have any experience with managing such a huge dataset. However, I can anticipate that the response time of my solution will be much slower, increasing the time required by the `SELECT` queries to fetch data and stressing the disk(s) hosting the database in the I/O operations
+    I don't have any experience with managing such a huge dataset but I can anticipate that. in case of 20 million entries, the response time of my solution will be much slower, especially on the endpoints that perform `SELECT` operations on the database.
 
 2) <b>If not, what would you do to improve it?</b>
-    Even if I'm not an expert in database administration, I know that there are many ways to optimize a PostgreSQL database for this scenario (clustering, table partitioning, indexing etc) and they would all important to prevent the system from collapsing; anyway, I would consider to move all the queries to a text-based service like ElasticSearch, because they are designed to solve these problems specifically and improve the application' response time in a significant way
+    Even if I'm not an expert in database administration, I know that the PostgreSQL engine offers many optimizations to accomodate the scaling up of the applications (clustering, table partitioning, indexing etc) and they would all important to prevent the system from collapsing. Anyway, I would rather consider to add a text-based search engine like ElasticSearch and keep it updated with the postgres db. I would then modify the solution to query this service via its own API to speed up the data fetching and searching
     
