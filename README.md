@@ -1,5 +1,15 @@
 # works-single-view-api
 
+## Table of Contents
+
+- [Description](#description)
+- [Dependencies](#dependencies)
+- [Setup](#setup)
+- [Usage](#usage)
+- [Questions](#questions)
+
+## Description
+
 This is the repository for the second part of the test assigned to me by BMAT. I used `flask` as web server, exposing its api with the `flask-restful` module. The software has to work with the same database used in the first part of the assignment.
 
 Project structure:
@@ -35,7 +45,7 @@ Project structure:
 * dataaccess - holds the database management
 * util - utility functions; the scripts inside `processor.py` are the same used in the first part of the assignment plus some basic modifications to integrate it with the current app
 
-## Dev Dependencies
+## Dependencies
 
 - Python 3.7.7
 - Flask
@@ -180,7 +190,7 @@ RESPONSE
     "message": "file not allowed"
 }
 ```
-## Answers to Questions
+## Questions
 
 1) <b>Imagine that the Single View has 20 million musical works, do you think your solution would have a similar response time?</b>
     <br/>
