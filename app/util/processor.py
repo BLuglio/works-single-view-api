@@ -30,22 +30,22 @@ class Processor():
     def compose_query(self, iswc, contributors, title):
         return f"INSERT INTO musical_work_test (iswc, contributors, title, source) VALUES ('{iswc}', ARRAY{contributors}, '{title}') ON CONFLICT DO UPDATE SET contributors=ARRAY{contributors};"
 
-    def process(self, filepath):
-        _file = pd.read_csv(filepath)
-        ### data pre processing: ###
-        #   1) filter columns
-        #   2) take all iswcs without duplicates and discard the rows with a null iswc
-        #   3) for each iswc extract the contributors
-        data = pd.DataFrame(_file, columns=['iswc', 'title', 'contributors']).values.tolist()
-        df = pd.DataFrame(_file, columns=['iswc'])
-        iswcs = self.extract_iswcs(df)
-        result = []
-        for iswc in iswcs:
-            # indici delle occorrenze del brano corrente in data
-            indices = [i for i, x in enumerate(data) if x[0] == iswc]
-            title = data[indices[0]][1]
-            if(pd.isnull(title)):
-                title = ''
-            contributors = self.extract_contributors(data, indices, [])
-            result.append({'iswc': iswc, 'title': title, 'contributors': contributors})
+    def process(self, filepath, current_iswc):
+        try:
+            _file = pd.read_csv(filepath)
+            data = pd.DataFrame(_file, columns=['iswc', 'title', 'contributors']).values.tolist()
+            df = pd.DataFrame(_file, columns=['iswc'])
+            iswcs = self.extract_iswcs(df)
+            result = []
+            for iswc in iswcs:
+                if(iswc == current_iswc):
+                    indices = [i for i, x in enumerate(data) if x[0] == iswc]
+                    title = data[indices[0]][1]
+                    if(pd.isnull(title)):
+                        title = ''
+                    contributors = self.extract_contributors(data, indices, [])
+                    result.append({'iswc': iswc, 'title': title, 'contributors': contributors})
+        except(Exception) as e:
+            print(e)
+            result = []
         return result

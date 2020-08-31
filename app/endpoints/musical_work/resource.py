@@ -42,6 +42,7 @@ class MusicalWorkResource(Resource):
                 # get single one
                 res = self.__model__.get_by_iswc(iswc)
                 if len(res) > 0:
+                    # csv export
                     if 'download' in request.base_url:
                         return self.export_csv(res)
                     else:
@@ -57,23 +58,33 @@ class MusicalWorkResource(Resource):
     
     def post(self, iswc):
         if len(request.files) == 0:
-            # flash('no file part')
             abort(400, "no file part")
         file = request.files['file']
         if file:
             if file.filename == '':
-                # flash('no selected file')
                 abort(400, "no selected file")
             if self.allowed_file(file.filename):
-                filename = secure_filename(file.filename)
-                if "/" in filename:
-                    abort(400, "no subdirectories directories allowed")
-                _filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-                file.save(_filename)
-                data = self.__processor__.process(_filename)
-                self.__model__.insert(data)
-                # Return 201 CREATED
-                return f"{filename} uploaded successfully!", 201
+                try:
+                    filename = secure_filename(file.filename)
+                    if "/" in filename:
+                        abort(400, "no subdirectories directories allowed")
+                    _filename = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+                    file.save(_filename)
+                except(Exception) as e:
+                    print(e)
+                    abort(400, "invalid file")
+                data = self.__processor__.process(_filename, iswc)
+                if len(data) > 0:
+                    self.__model__.insert(data)
+                    os.remove(_filename)
+                    # Return 201 CREATED
+                    message = {"message": f"{filename} uploaded successfully!", "url": request.base_url.replace("/upload","")}
+                    response = app.response_class(response=json.dumps(message),
+                                  status=201,
+                                  mimetype='application/json')
+                    return response
+                else:
+                    abort(400, "invalid file")
             abort(400, "file not allowed")
         abort(400, "file not found") 
 
@@ -90,7 +101,7 @@ class MusicalWorkResource(Resource):
     def export_csv(self, res):
         musical_work = res[0] # exactly one record has been fetched
         musical_work = dict(musical_work)
-        # formatting the contributors as the provided works_metadata file
+        # formatting the contributors as the string in works_metadata file
         contributors = str(musical_work['contributors']).replace('[','').replace(']','').replace(', ', '|')
         contributors = re.sub(r'\'', '', contributors) 
         musical_work['contributors'] = contributors
