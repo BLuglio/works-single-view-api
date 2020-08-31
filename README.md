@@ -26,12 +26,12 @@ Project structure:
 │   │   ├── __init__.py
 │   │   ├── csv.py
 │   │   └── processor.py
-├── endpoints
-│   ├── __init__.py
-│   ├── musical_work
-│   │   ├── __init__.py
-│   │   ├── model.py
-│   │   └── resource.py
+│   |──endpoints
+│   │   ├──__init__.py
+│   |   ├── musical_work
+│   │   |   ├── __init__.py
+│   │   |   ├── model.py
+│   │   |   └── resource.py
 ├── settings.py
 ├── api.py
 ├── requirements.txt
