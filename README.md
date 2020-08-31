@@ -38,16 +38,17 @@ Project structure:
 └── main.py
 ```
 
-* endpoints - holds the only endpoint relative to the musical works
+* endpoints - holds the only endpoint relative to the musical works; `resource.py` contains the logic and data model associated with the http requests, while `model.py` is used to interface with data at db level
 * main.py - flask application initialization
 * api.py - the API definition
 * settings.py - all global app settings
 * dataaccess - holds the database management
-* util - utility functions; the scripts inside `processor.py` are the same used in the first part of the assignment plus some basic modifications to integrate it with the current app
+* util - utility functions; the script inside `processor.py` is the same one that is used in the first part of the assignment plus some basic modifications to integrate it with the current app
 
 ## Dependencies
 
 - Python 3.7.7
+- Pip >= 19.2.3
 - Flask
 - Flask-RESTful
 - numpy
@@ -194,8 +195,8 @@ RESPONSE
 
 1) <b>Imagine that the Single View has 20 million musical works, do you think your solution would have a similar response time?</b>
     <br/>
-    I don't have any experience with managing such a huge dataset but I can anticipate that. in case of 20 million entries, the response time of my solution will be much slower, especially on the endpoints that perform `SELECT` operations on the database.
+    I don't have any experience with managing such a huge dataset but I can foresee that, in case of 20 million entries, the response time of my solution will be much slower, especially on the endpoints that perform `SELECT` operations on the database. The unique constraint that I defined on the iswc column could be beneficial since under the hood the postgres engine creates a b-tree index on it, but it couldn't be sufficient to guarantee a fast response
 
 2) <b>If not, what would you do to improve it?</b><br/>
-    I would start by testing and evaluating the performance and then I would try for sure some table partitioning strategy for storing the musical works instead of having them all in a single table. The queries' response time could also be improved by adding a caching mechanism (the one provided by the flask framework itself or maybe using an external application like Redis, for example) so that the results already fetched can be retrieved faster. I would also experiment with a text-based search engine like ElasticSearch, connecting it with the db and changing the `get` endpoints logic in order to use the API exposed by the service instead of accessing the db directly and see what happens
+    I would start by testing and evaluating the performance and then I would try for sure some table partitioning strategy for storing the musical works instead of having them all in a single table. The queries' response time could also be improved by adding a caching mechanism (the one provided by the flask framework itself or maybe using an external application like Redis, for example) so that the results already fetched will be retrieved faster. I would also experiment with a text-based search engine like ElasticSearch, connecting it with the db and changing the `get` endpoints logic in order to use the API exposed by the service instead of accessing the db directly
     

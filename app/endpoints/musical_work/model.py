@@ -26,7 +26,7 @@ class MusicalWork():
                     contributors = elem['contributors']
                     query += f"INSERT INTO {self.__tablename__} (iswc, contributors, title, created_at) VALUES ('{iswc}', ARRAY{contributors}, '{title}', now()) ON CONFLICT ON CONSTRAINT iswc DO UPDATE SET contributors=ARRAY{contributors}, modified_at=now();\n"
                 else:
-                    print("no")
+                    return False
             query += "COMMIT;"
             result = self.db.execute_insert_query(query)
             return result
